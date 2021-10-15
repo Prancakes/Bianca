@@ -1,85 +1,125 @@
 import random
-# Demo of basic input in python
-# name = input("Enter your name: ")
-# print("Hello " + name)
-
-# Demo of a program that computes for an area of a circle
-# radius = float(input("Enter the radius: "))
-# area = 3.14 * (radius**2)
-# print("The area of the Circle is: " + str(area))
-
-# Demo of a program that computes for a volume of a cylinder
-# radius = float(input("Enter the Radius: "))
-# height = float(input("Enter the Height: "))
-# volume = 3.14 *(radius**2 * height)
-# print("The Volume of the Cylinder: " + str(volume))
-
-#Demo for array 
-# fruits = ["apple", "banana", "cherry", "strawberry", "melon", "watermelon"]
-# print(fruits[0])
-# print(fruits[1])
-# print(fruits[2])
-
-#Demo for for Loop
-# for x in fruits:
-#     print(x)
-
-# i = 0
-# while i < 10:
-#     print("Hello World")
-#     print(i)
-#     i = i + 1
-
-
-
-#sample text-based game with simple conditional statement
-character_health = 100
-item = ""
-
-name = input("Enter your name: ")
+name = input("Please type your name here: ")
 print("Hello " + name)
 
-while character_health > 0:
-    if character_health != 100 and item == "Fish":
-        n = input("You have taken some damage to heal select [1 to heal/ 0 to ignore]")
-        if n == "1":
-            character_health += 10
-            print("Your character's health is back to " + str(character_health))
-        else :
-             print("Your character's health is back to " + str(character_health))
+# some rooms
+
+# gemstone room
+def gemstone_room():
+  # some prompts
+  print("\nYou are now in a room filled with gemstone!")
+  print("And there is a door too!")
+  print("What would you do? (1 or 2)")
+  print("1). Take some gemstone and go through the door.")
+  print("2). Just go through the door.")
+
+  # take input()
+  answer = input(">")
+  
+  if answer == "1":
+    # the player is dead, call game_over() function with the "reason"
+    game_over("They were cursed gemstone! The moment you touched it, the building collapsed, and you die!")
+  elif answer == "2":
+    # the player won the game
+    print("\nNice, you're are an honest man! Congrats you win the game!")
+    # activate play_again() function
+    play_again()
+  else:
+    # call game_over() with "reason"
+    game_over("Go and learn how to type a number.")
 
 
-    v = int(input("Choose 1 if you want to cross the river\nChoose 2 if you want to jump on the ravine\nChoose 3 if you want to fight monster in the dungeon \nInput: "))
-   
-    #Start of Journey
-    if v == 1: 
-        choice = input("If you want to go fishing select [1 for yes/ 0 for no]")
-        if choice == "1":
-            #Fishing minigame
-            print("You have chosen Fishing! ")
-            chance = random.randint(0,9)
-            if chance > 6:
-                item = "Fish"
-                print("You have catch a Fish!")
-            else:
-                print("There is no fish to catch")
+# bear room
+def bear_room():
+  # give some prompts
+  # '\n' is to print the line in a new line
+  print("\nThere is a bear here.")
+  print("Behind the bear is another door.")
+  print("The bear is eating tasty honey!")
+  print("What would you do? (1 or 2)")
+  print("1). Take the honey.")
+  print("2). Taunt the bear.")
 
-        elif choice == "0":
-            print("You have crossed the river")
+  # take input()
+  answer = input(">")
+  
+  if answer == "1":
+    # the player is dead!
+    game_over("The bear killed you.")
+  elif answer == "2":
+    # lead him to the gemstone_room()
+    print("\nYour Good time, the bear moved from the door. You can go through it now!")
+    gemstone_room()
+  else:
+    # else call game_over() function with the "reason" argument
+    game_over("Don't you know how to type a number?")
 
 
-    elif v == 2:
-        #damages the player
-        print("You have jumped into the ravine")
-        print("Your character has taken 10pt of damage")
-        character_health = character_health - 10
-    elif v == 3:
-        #damages the player
-        print("You have enter the dungeon")
+# monster room
+def monster_room():
+  # some prompts
+  # '\n' is to print the line in a new line
+  print("\nNow you entered the room of a monster!")
+  print("The monster is sleeping.\nBehind the monster, there is another door. What would you do? (1 or 2)")
+  print("1). Go through the door silently.")
+  print("2). Kill the monster and show your courage!")
 
-    else:
-        print("Invalid input")
+  # take input()
+  answer = input(">")
 
-    print("Your character's Health: " + str(character_health))
+  if answer == "1":
+    # lead him to the gemstone_room()
+    diamond_room()
+  elif answer == "2":
+    # the player is dead, call game_over() with "reason"
+    game_over("The monster was hungry, he/it ate you.")
+  else:
+    # game_over() with "reason"
+    game_over("Go and learn how to type a number.")
 
-print("Your Character is dead!")
+
+# function to ask play again or not
+def play_again():
+  print("\nDo you want to play again? (y or n)")
+  
+  # convert the player's input to lower_case
+  answer = input(">").lower()
+
+  if "y" in answer:
+    # if player typed "yes" or "y" start the game from the beginning
+    start()
+  else:
+    # if user types anything besides "yes" or "y", exit() the program
+    exit()
+
+
+# game_over function accepts an argument called "reason"
+def game_over(reason):
+  # print the "reason" in a new line (\n)
+  print("\n" + reason)
+  print("Game Over!")
+  # ask player to play again or not by activating play_again() function
+  play_again()
+
+
+def start():
+  # give some prompts.
+  print("\nYou are standing in a dark room.")
+  print("There is a door to your left and right, which one do you take? (l or r)")
+  
+  # convert the player's input() to lower_case
+  answer = input(">").lower()
+
+  if "l" in answer:
+    # if player typed "left" or "l" lead him to bear_room()
+    bear_room()
+  elif "r" in answer:
+    # else if player typed "right" or "r" lead him to monster_room()
+    monster_room()
+  else:
+    # else call game_over() function with the "reason" argument
+    game_over("Don't you know how to type something properly?")
+
+
+# start the game
+start()
